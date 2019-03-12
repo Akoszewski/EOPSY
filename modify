@@ -1,0 +1,19 @@
+#!/bin/bash
+
+for var in "$@"
+do
+    echo "$var";
+    recursive=0;
+    if $var -e "-r";
+    then
+        recursive=1;
+    fi
+    if $var == "-l";
+    then
+        case="l";
+    else
+        case="u";
+    fi
+
+    echo $case;
+done
