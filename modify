@@ -1,19 +1,45 @@
 #!/bin/bash
 
-for var in "$@"
-do
-    echo "$var";
-    recursive=0;
-    if $var -e "-r";
+function check_case ()
+{
+    if [ "$1" == "-l" ]
     then
-        recursive=1;
-    fi
-    if $var == "-l";
+        case="lowercase"
+    elif [ "$1" == "-u" ]
     then
-        case="l";
+        case="uppercase"
     else
-        case="u";
+        bad_param
     fi
+}
 
-    echo $case;
-done
+function bad_param ()
+{
+    echo "Bad parameter"
+    exit
+}
+
+function print_help ()
+{
+    echo "Here will be help"
+    exit
+}
+
+if [ "$1" == "-h" ]
+then
+    print_help
+fi
+if [ "$1" == "-r" ]
+then
+    recursive=1
+fi
+if [ "$recursive" == "1" ]
+then
+    check_case "$2"
+else
+    check_case "$1"
+fi
+
+echo "case: $case"
+echo "recursive: $recursive"
+
