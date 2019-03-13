@@ -39,7 +39,10 @@ function error ()
 
 function print_help ()
 {
-    echo "Here will be help"
+    echo "Usage:"
+    echo "modify [-r] [-l|-u] <dir/file names...>"
+    echo "modify [-r] <sed pattern> <dir/file names...>"
+    echo "modify [-h]"
     exit
 }
 
@@ -70,7 +73,7 @@ then
     mv "$filenames" "`echo $filenames | sed $pattern`"
     exit
 fi
-if [ "$case" == "upspercase" ]
+if [ "$case" == "uppercase" ]
 then
     mv "$filenames" "${filenames^^}"
 else
