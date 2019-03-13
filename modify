@@ -64,3 +64,15 @@ echo "case: $case"
 echo "pattern: $pattern"
 echo "filenames: $filenames"
 
+
+if [ "$pattern" != "" ]
+then
+    mv "$filenames" "`echo $filenames | sed $pattern`"
+    exit
+fi
+if [ "$case" == "upspercase" ]
+then
+    mv "$filenames" "${filenames^^}"
+else
+    mv "$filenames" "${filenames,,}"
+fi
