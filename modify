@@ -8,15 +8,33 @@ function check_case ()
     elif [ "$1" == "-u" ]
     then
         case="uppercase"
+    elif [ -z $1 ]
+    then
+        error "Not enough arguments"
     else
-        bad_param
+        pattern="$1"
     fi
 }
 
-function bad_param ()
+function check_filenames ()
 {
-    echo "Bad parameter"
-    exit
+    if [ -z "$1" ]
+    then
+        error "You need to provide at last one filename"
+    else
+        filenames="$1"
+    fi
+}
+
+function error ()
+{
+    if [ -z "$1" ]
+    then
+        echo "Bad parameter"
+    else
+        echo $1
+    fi
+    print_help
 }
 
 function print_help ()
@@ -25,21 +43,24 @@ function print_help ()
     exit
 }
 
+recursive="false"
 if [ "$1" == "-h" ]
 then
     print_help
 fi
 if [ "$1" == "-r" ]
 then
-    recursive=1
-fi
-if [ "$recursive" == "1" ]
-then
+    recursive="true"
     check_case "$2"
+    check_filenames "$3"
 else
+    recursive="false"
     check_case "$1"
+    check_filenames "$2"
 fi
 
-echo "case: $case"
 echo "recursive: $recursive"
+echo "case: $case"
+echo "pattern: $pattern"
+echo "filenames: $filenames"
 
