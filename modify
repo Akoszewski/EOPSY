@@ -16,16 +16,6 @@ function check_case ()
     fi
 }
 
-function check_filenames ()
-{
-    if [ -z "$1" ]
-    then
-        error "You need to provide at last one filename"
-    else
-        filenames="$1"
-    fi
-}
-
 function error ()
 {
     if [ -z "$1" ]
@@ -54,28 +44,35 @@ fi
 if [ "$1" == "-r" ]
 then
     recursive="true"
-    check_case "$2"
-    check_filenames "$3"
+    shift
 else
     recursive="false"
-    check_case "$1"
-    check_filenames "$2"
+fi
+check_case "$1"
+shift
+if [ -z "$1" ]
+then
+    error "You need to provide at last one filename"
+else
+    for filename in "$@"
+    do
+        echo "$filename"
+        if [ "$pattern" != "" ]
+        then
+            mv "$filename" "`echo $filename | sed $pattern`"
+            exit
+        fi
+        if [ "$case" == "uppercase" ]
+        then
+            mv "$filename" "${filename^}"
+        else
+            mv "$filename" "${filename,}"
+        fi
+
+    done
 fi
 
 echo "recursive: $recursive"
 echo "case: $case"
 echo "pattern: $pattern"
 echo "filenames: $filenames"
-
-
-if [ "$pattern" != "" ]
-then
-    mv "$filenames" "`echo $filenames | sed $pattern`"
-    exit
-fi
-if [ "$case" == "uppercase" ]
-then
-    mv "$filenames" "${filenames^^}"
-else
-    mv "$filenames" "${filenames,,}"
-fi
