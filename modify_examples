@@ -1,10 +1,11 @@
 #!/bin/bash
 
 ./modify -h
-echo "---------------"
-./modify -u "file 1"
-echo "---------------"
-./modify -l "FILE 1"
-echo "---------------"
-./modify "s/\([a-z]*\).*/\1/" "file 1" # deletes other words in filename
-echo "---------------"
+./modify -u "file 1" "folder 1/folder inside/file inside deep 1"
+./modify -l "FILE 1" "folder 1/folder inside/FILE INSIDE DEEP 1"
+./modify -r "s/\([a-z]*\).*/\1/" "file 1" "folder 1/folder inside/" # deletes other words in filename
+./modify -r "folder 2" # incorrect - no pattern or case option
+./modify -r -u "folder 2"
+./setup.sh
+./modify -u "folder 1/file inside 1" "folder 1/file inside 2" "folder 1/folder inside/file inside deep 2"
+./setup.sh
