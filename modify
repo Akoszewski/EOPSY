@@ -36,6 +36,20 @@ function print_help ()
     exit
 }
 
+function new_name ()
+{
+    if [ "$case" == "uppercase" ]
+    then
+        echo "${filename^^}"
+    elif [ "$case" == "lowercase" ]
+    then
+        echo "${filename,,}"
+    elif [ "$pattern" != "" ]
+    then
+        echo "`echo $filename | sed $pattern`"
+    fi
+}
+
 recursive="false"
 if [ "$1" == "-h" ]
 then
@@ -60,16 +74,6 @@ else
         filepath=$(dirname "$fullpath")
         echo "$filename"
         echo "filepath: $filepath"
-        if [ "$pattern" != "" ]
-        then
-            mv "$fullpath" "$filepath/`echo $filename | sed $pattern`"
-            exit
-        fi
-        if [ "$case" == "uppercase" ]
-        then
-            mv "$fullpath" "$filepath/${filename^^}"
-            else
-                mv "$fullpath" "$filepath/${filename,,}"
-            fi
+        mv "$fullpath" "$filepath/$(new_name)"
     done
 fi
