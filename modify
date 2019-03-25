@@ -56,23 +56,20 @@ then
 else
     for filename in "$@"
     do
-        echo "$filename"
-        if [ "$pattern" != "" ]
-        then
-            mv "$filename" "`echo $filename | sed $pattern`"
-            exit
-        fi
-        if [ "$case" == "uppercase" ]
-        then
-            mv "$filename" "${filename^}"
-        else
-            mv "$filename" "${filename,}"
-        fi
+
+            echo "$filename"
+            if [ "$pattern" != "" ]
+            then
+                mv "$filename" "`echo $filename | sed $pattern`"
+                exit
+            fi
+            if [ "$case" == "uppercase" ]
+            then
+                mv "$filename" "${filename^^}"
+            else
+                mv "$filename" "${filename,,}"
+            fi
+    
 
     done
 fi
-
-echo "recursive: $recursive"
-echo "case: $case"
-echo "pattern: $pattern"
-echo "filenames: $filenames"
