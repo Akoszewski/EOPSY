@@ -54,22 +54,22 @@ if [ -z "$1" ]
 then
     error "You need to provide at last one filename"
 else
-    for filename in "$@"
+    for fullpath in "$@"
     do
-
-            echo "$filename"
-            if [ "$pattern" != "" ]
-            then
-                mv "$filename" "`echo $filename | sed $pattern`"
-                exit
-            fi
-            if [ "$case" == "uppercase" ]
-            then
-                mv "$filename" "${filename^^}"
+        filename=$(basename "$fullpath")
+        filepath=$(dirname "$fullpath")
+        echo "$filename"
+        echo "filepath: $filepath"
+        if [ "$pattern" != "" ]
+        then
+            mv "$fullpath" "$filepath/`echo $filename | sed $pattern`"
+            exit
+        fi
+        if [ "$case" == "uppercase" ]
+        then
+            mv "$fullpath" "$filepath/${filename^^}"
             else
-                mv "$filename" "${filename,,}"
+                mv "$fullpath" "$filepath/${filename,,}"
             fi
-    
-
     done
 fi
