@@ -1,11 +1,38 @@
 #!/bin/bash
 
+# creates all necessary files
+./setup.sh
+
+# this call prints out usage information
 ./modify -h
+
+# replaces name of file 1 and "folder 1/folder inside/file inside deep 1" with capital letters
 ./modify -u "file 1" "folder 1/folder inside/file inside deep 1"
+
+# reverses what happened line before
 ./modify -l "FILE 1" "folder 1/folder inside/FILE INSIDE DEEP 1"
-./modify -r "s/\([a-z]*\).*/\1/" "file 1" "folder 1/folder inside/" # deletes other words in filename
-./modify -r "folder 2" # incorrect - no pattern or case option
+
+# deletes every word in filename except first one recursively in all passed paths
+./modify -r "s/\([a-z]*\).*/\1/" "file 1" "folder 1/folder inside/"
+
+# incorrect usage (no pattern or case option) - prints error and help
+./modify -r "folder 2"
+
+# replaces name of folder 2 with capital letters
+# and does the same for every file and folder inside
 ./modify -r -u "folder 2"
-./setup.sh
+
+# capitalizes all the names of files that are passed in last arguments
 ./modify -u "folder 1/file inside 1" "folder 1/file inside 2" "folder 1/folder inside/file inside deep 2"
+
+# restores all files to oryginal state
 ./setup.sh
+
+# replaces all filenames in folder 1 and its contents
+./modify -r -u "./folder 1/*"
+
+# restores all files
+./setup.sh
+
+# replaces all filenames to capitalized versions inside folder 1 but with no recursion
+./modify -u ."./folder 1/*"
