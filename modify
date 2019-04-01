@@ -8,7 +8,7 @@ function check_case ()
     elif [ "$1" == "-u" ]
     then
         case="uppercase"
-    elif [ -z $1 ]
+    elif [ -z "$1" ]
     then
         error "Not enough arguments"
     else
@@ -76,16 +76,21 @@ else
         then
             SAVEDIFS=$IFS
             IFS=$'\n'
-            lines=(`find "$fullpath"`)
-            for ((i=${#lines[@]} - 1; i >= 0; i--))
+            for line in `find "$fullpath"`
             do
-                filename=$(basename "${lines[$i]}")
-                filepath=$(dirname "${lines[$i]}")
-                mv "${lines[$i]}" "$filepath/$(new_name)"
+                if [ -f "$line" ]
+                then
+                    filename=$(basename "$line")
+                    filepath=$(dirname "$line")
+                    mv "$line" "$filepath/$(new_name)"
+                fi
             done
             IFS=$SAVEDIFS
         else
-            mv "$fullpath" "$filepath/$(new_name)"
+            if [ -f "$fullpath" ]
+            then
+                mv "$fullpath" "$filepath/$(new_name)"
+            fi
         fi
     done
 fi
