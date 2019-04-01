@@ -1,6 +1,4 @@
 ./cleanup.sh
-touch "file 1"
-touch "file 2"
 mkdir "folder 1"
 mkdir "folder 2"
 touch "folder 2/file inside.txt"

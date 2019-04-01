@@ -1,2 +1,2 @@
-rm -r "folder"* "FOLDER"* > /dev/null 2>&1
-rm "file"* "FILE"* > /dev/null 2>&1
+rm -r "folder 1" "FOLDER 1" > /dev/null 2>&1
+rm -r "folder 2" "FOLDER 2" > /dev/null 2>&1

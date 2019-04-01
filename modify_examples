@@ -7,13 +7,18 @@
 ./modify -h
 
 # replaces name of file 1 and "folder 1/folder inside/file inside deep 1" with capital letters
-./modify -u "file 1" "folder 1/folder inside/file inside deep 1"
+./modify -u "folder 1/file inside 1" "folder 1/folder inside/file inside deep 1"
 
 # reverses what happened line before
-./modify -l "FILE 1" "folder 1/folder inside/FILE INSIDE DEEP 1"
+./modify -l "folder 1/FILE INSIDE 1" "folder 1/folder inside/FILE INSIDE DEEP 1"
 
 # deletes every word in filename except first one, also "." and everything after recursively in all passed paths
-./modify -r "s/\([a-z]*\).*/\1/" "file 1" "folder 2/"
+./modify -r "s/\([a-z]*\).*/\1/" "folder 1/file inside 1" "folder 2/"
+
+./setup.sh
+
+# like above but not recursively so only file inside 1 is changed
+./modify "s/\([a-z]*\).*/\1/" "folder 1/file inside 1" "folder 2/"
 
 # incorrect usage (no pattern or case option) - prints error and help
 ./modify -r "folder 1"
@@ -25,8 +30,14 @@
 # capitalizes all the names of files that are passed in last arguments
 ./modify -u "folder 1/file inside 1" "folder 1/file inside 2" "folder 1/folder inside/file inside deep 2"
 
+# restores files to oryginal state
+./setup.sh
+
 # replaces all filenames in folder 1 and its contents
 ./modify -r -u "./folder 1/"*
+
+# restores files to oryginal state
+./setup.sh
 
 # replaces all filenames to capitalized versions inside folder 1 but with no recursion
 ./modify -u "./folder 1/"*
