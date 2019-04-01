@@ -26,7 +26,7 @@
 ./modify -u "folder 1/file inside 1" "folder 1/file inside 2" "folder 1/folder inside/file inside deep 2"
 
 # replaces all filenames in folder 1 and its contents
-./modify -r -u "./folder 1/*"
+./modify -r -u "./folder 1/"*
 
 # replaces all filenames to capitalized versions inside folder 1 but with no recursion
-./modify -u "./folder 1/*"
+./modify -u "./folder 1/"*
