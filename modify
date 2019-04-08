@@ -82,14 +82,22 @@ else
                 then
                     filename=$(basename "$line")
                     filepath=$(dirname "$line")
-                    mv "$line" "$filepath/$(new_name)"
+                    newname=$(new_name)
+                    if [ "$newname" != "$filename" ]
+                    then
+                        mv "$line" "$filepath/$newname"
+                    fi
                 fi
             done
             IFS=$SAVEDIFS
         else
             if [ -f "$fullpath" ]
             then
-                mv "$fullpath" "$filepath/$(new_name)"
+                newname=$(new_name)
+                if [ "$newname" != "$filename" ]
+                then
+                    mv "$fullpath" "$filepath/$newname"
+                fi
             fi
         fi
     done

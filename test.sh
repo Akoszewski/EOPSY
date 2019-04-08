@@ -138,6 +138,44 @@ folder 2/file inside.txt"
 ./modify -u "./folder 1/"*
 assert
 
+./setup.sh
+output="folder 1
+folder 1/folder inside
+folder 1/folder inside/file inside deep 1
+folder 1/folder inside/file inside deep 2
+folder 1/file inside 2
+folder 1/file inside 1
+folder 2
+folder 2/file inside.txt"
+./modify -r -l "folder 1/folder inside"
+assert
+
+./setup.sh
+output="folder 1
+folder 1/folder inside
+folder 1/folder inside/file inside deep 1
+folder 1/folder inside/file inside deep 2
+folder 1/file inside 2
+folder 1/file inside 1
+folder 2
+folder 2/file inside.txt"
+./modify -l "folder 1/file inside 1"
+assert
+
+./setup.sh
+touch "folder 1/file"
+output="folder 1
+folder 1/newname
+folder 1/folder inside
+folder 1/folder inside/file inside deep 1
+folder 1/folder inside/file inside deep 2
+folder 1/file inside 2
+folder 1/file inside 1
+folder 2
+folder 2/file inside.txt"
+./modify "s/file/newname/" "folder 1/file"
+assert
+
 if [ "$failed" == "true" ]
 then
     echo "Some tests failed"
